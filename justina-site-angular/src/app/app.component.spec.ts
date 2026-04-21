@@ -14,16 +14,26 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'justina-site-angular' title`, () => {
+  it('should default active section to services', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('justina-site-angular');
+    expect(app.activeSection).toBe('services');
   });
 
-  it('should render title', () => {
+  it('should render the nav component', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, justina-site-angular');
+    expect(compiled.querySelector('app-nav')).toBeTruthy();
+  });
+
+  it('should render all four section components', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('app-hero')).toBeTruthy();
+    expect(compiled.querySelector('app-work')).toBeTruthy();
+    expect(compiled.querySelector('app-experience')).toBeTruthy();
+    expect(compiled.querySelector('app-about')).toBeTruthy();
   });
 });

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/david/.claude/projects/c--Users-david-Documents-workspace-justina-site/memory/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\david\\.claude\\projects\\c--Users-david-Documents-workspace-justina-site\\memory"
+    ]
+  }
+}

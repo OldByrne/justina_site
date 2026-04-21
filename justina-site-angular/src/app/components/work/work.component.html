@@ -1,0 +1,71 @@
+<section class="work-section" id="work">
+  <div class="work-inner" #workInner>
+    @for (item of workItems; track item.id; let i = $index) {
+      <div
+        class="work-card"
+        #workCard
+        [style.zIndex]="i + 1"
+      >
+        <!-- Card header -->
+        <div class="work-card-header">
+          <div class="work-card-title-group">
+            <h2 class="work-title">{{ item.name }}</h2>
+            <p class="work-meta">
+              {{ item.tagline }}
+              <span class="work-dot">·</span>
+              <span class="work-period">{{ item.period }}</span>
+            </p>
+          </div>
+
+          <div class="work-card-actions">
+            @if (!item.hasLiveLink) {
+              <button class="cta-globe" aria-label="Website">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              </button>
+            }
+            <a [href]="item.ctaLink" class="cta-btn" [class.cta-btn--live]="item.hasLiveLink">
+              {{ item.ctaLabel }}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Mock screenshot area -->
+        <div class="work-card-preview" [style.background]="item.gradient">
+          <div class="mock-ui">
+            <div class="mock-topbar">
+              <div class="mock-dot"></div>
+              <div class="mock-dot"></div>
+              <div class="mock-dot"></div>
+            </div>
+            <div class="mock-content">
+              <div class="mock-sidebar">
+                <div class="mock-line short"></div>
+                <div class="mock-line"></div>
+                <div class="mock-line short"></div>
+                <div class="mock-line"></div>
+                <div class="mock-line short"></div>
+              </div>
+              <div class="mock-main">
+                <div class="mock-card-inner">
+                  <div class="mock-line"></div>
+                  <div class="mock-line short"></div>
+                </div>
+                <div class="mock-card-inner">
+                  <div class="mock-line"></div>
+                  <div class="mock-line"></div>
+                  <div class="mock-line short"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>

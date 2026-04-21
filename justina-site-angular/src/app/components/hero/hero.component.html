@@ -1,0 +1,82 @@
+<section class="hero" id="services">
+  <div class="hero-content">
+    <!-- Headline -->
+    <div class="hero-intro">
+      <h1 class="headline">
+        I'm Justina, I make products feel obvious for technology that isn't
+      </h1>
+      <p class="subheadline">
+        I join startups early. Often before there's a product. I scope it, design it, and ship it with engineering.
+        No handoff, no gaps.
+      </p>
+      <div class="location-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#888" stroke-width="1.5"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#888" stroke-width="1.5"/>
+        </svg>
+        <span>Remote. Available worldwide.</span>
+      </div>
+    </div>
+
+    <!-- Services + Testimonial side-by-side -->
+    <div class="hero-bottom">
+      <!-- Services preview card -->
+      <div class="services-card">
+        <div class="services-bg">
+          <div class="services-labels">
+            @for (item of serviceHighlights; track item.label) {
+              <span class="service-tag" [class.featured]="item.featured">
+                @if (item.featured) {
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+                {{ item.label }}
+              </span>
+            }
+          </div>
+          <div class="services-spotlight">
+            <p>I break what we build, then figure out why. Checking edge cases, logic gaps, and following through bugs.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial card -->
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar">
+            {{ activeTestimonial.name[0] }}
+          </div>
+          <div class="testimonial-meta">
+            <strong>{{ activeTestimonial.name }}</strong>
+            <span>{{ activeTestimonial.role }} &#64; {{ activeTestimonial.company }}</span>
+          </div>
+          <div class="testimonial-controls">
+            <button (click)="prev()" aria-label="Previous testimonial">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button (click)="next()" aria-label="Next testimonial">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <blockquote class="testimonial-quote">
+          {{ activeTestimonial.quote }}
+        </blockquote>
+      </div>
+    </div>
+
+    <!-- Backed by -->
+    <div class="backed-by">
+      <span class="backed-label">Founding designer at startups backed by</span>
+      <div class="backed-logos">
+        <span class="backer-badge">Y Combinator</span>
+        <span class="backer-badge">Sequoia</span>
+      </div>
+    </div>
+  </div>
+</section>

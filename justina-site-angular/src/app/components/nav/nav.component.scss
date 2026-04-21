@@ -1,0 +1,178 @@
+$nav-width: 200px;
+$nav-color: #111;
+$nav-muted: #888;
+
+.nav {
+  // desktop
+  .nav-desktop {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: $nav-width;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 40px 32px;
+    z-index: 100;
+    background: #fff;
+  }
+
+  .nav-logo {
+    margin-bottom: 48px;
+  }
+
+  .logo-text {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: $nav-color;
+    font-style: italic;
+  }
+
+  .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .nav-link {
+    background: none;
+    border: none;
+    padding: 6px 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: $nav-muted;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.2s ease;
+    width: 100%;
+
+    &:hover {
+      color: $nav-color;
+    }
+
+    &.active {
+      color: $nav-color;
+      font-weight: 500;
+    }
+  }
+
+  .nav-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-footer-link {
+    font-size: 16px;
+    color: $nav-muted;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $nav-color;
+    }
+  }
+
+  // Mobile
+  .nav-mobile-header {
+    display: none;
+  }
+
+  .nav-mobile-menu {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    .nav-desktop {
+      display: none;
+    }
+
+    .nav-mobile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      padding: 0 20px;
+      background: #fff;
+      z-index: 200;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .logo-text-mobile {
+      font-size: 14px;
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .hamburger {
+      background: none;
+      border: none;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      color: $nav-color;
+    }
+
+    .nav-mobile-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fff;
+      z-index: 199;
+      padding: 32px 24px;
+    }
+
+    .nav-links-mobile {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-link-mobile {
+      background: none;
+      border: none;
+      padding: 8px 0;
+      font-size: 28px;
+      font-weight: 500;
+      color: #ccc;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+
+      &.active {
+        color: $nav-color;
+      }
+    }
+
+    .nav-mobile-footer {
+      display: flex;
+      gap: 20px;
+
+      a {
+        font-size: 14px;
+        color: $nav-muted;
+      }
+    }
+  }
+}

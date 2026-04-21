@@ -1,0 +1,27 @@
+<section class="experience-section" id="experience">
+  <h2 class="section-title">Experience</h2>
+
+  <ul class="experience-list">
+    @for (exp of experiences; track exp.id) {
+      <li class="experience-item">
+        <div class="exp-logo" [style.background]="exp.logoBg" [style.color]="exp.logoColor">
+          {{ exp.logoLetter }}
+        </div>
+
+        <div class="exp-body">
+          <div class="exp-header">
+            <div>
+              <h3 class="exp-role">{{ exp.role }}</h3>
+              <span class="exp-company-period">
+                {{ exp.company }}
+                <span class="exp-dot">·</span>
+                {{ exp.period }}
+              </span>
+            </div>
+          </div>
+          <p class="exp-description">{{ exp.description }}</p>
+        </div>
+      </li>
+    }
+  </ul>
+</section>

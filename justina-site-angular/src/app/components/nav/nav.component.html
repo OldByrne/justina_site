@@ -1,0 +1,66 @@
+<nav class="nav" [class.mobile-open]="mobileMenuOpen">
+  <!-- Desktop sidebar -->
+  <div class="nav-desktop">
+    <div class="nav-logo">
+      <span class="logo-text">Justina<br>Portfolio</span>
+    </div>
+
+    <ul class="nav-links">
+      @for (link of navLinks; track link.sectionId) {
+        <li>
+          <button
+            class="nav-link"
+            [class.active]="isActive(link.sectionId)"
+            (click)="scrollTo(link.sectionId)"
+          >
+            {{ link.label }}
+          </button>
+        </li>
+      }
+    </ul>
+
+    <div class="nav-footer">
+      <a href="https://linkedin.com" target="_blank" rel="noopener" class="nav-footer-link">LinkedIn</a>
+      <a href="mailto:hello@justina.design" class="nav-footer-link">Email</a>
+    </div>
+  </div>
+
+  <!-- Mobile header -->
+  <div class="nav-mobile-header">
+    <span class="logo-text-mobile">Justina</span>
+    <button class="hamburger" (click)="toggleMobileMenu()" [attr.aria-expanded]="mobileMenuOpen" aria-label="Toggle menu">
+      @if (!mobileMenuOpen) {
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      } @else {
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      }
+    </button>
+  </div>
+
+  <!-- Mobile menu overlay -->
+  @if (mobileMenuOpen) {
+    <div class="nav-mobile-menu">
+      <ul class="nav-links-mobile">
+        @for (link of navLinks; track link.sectionId) {
+          <li>
+            <button
+              class="nav-link-mobile"
+              [class.active]="isActive(link.sectionId)"
+              (click)="scrollTo(link.sectionId)"
+            >
+              {{ link.label }}
+            </button>
+          </li>
+        }
+      </ul>
+      <div class="nav-mobile-footer">
+        <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:hello@justina.design">Email</a>
+      </div>
+    </div>
+  }
+</nav>
