@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface NavLink {
@@ -13,7 +13,7 @@ export interface NavLink {
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss'
 })
-export class NavComponent implements OnChanges {
+export class NavComponent implements OnDestroy {
   @Input() activeSection = 'services';
 
   mobileMenuOpen = false;
@@ -25,10 +25,8 @@ export class NavComponent implements OnChanges {
     { label: 'About', sectionId: 'about' },
   ];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['activeSection'] && this.mobileMenuOpen) {
-      this.mobileMenuOpen = false;
-    }
+  ngOnDestroy(): void {
+    document.body.style.overflow = '';
   }
 
   scrollTo(sectionId: string): void {
@@ -36,14 +34,20 @@ export class NavComponent implements OnChanges {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    this.mobileMenuOpen = false;
+    this.closeMenu();
   }
 
   toggleMobileMenu(): void {
     this.mobileMenuOpen = !this.mobileMenuOpen;
+    document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : '';
   }
 
   isActive(sectionId: string): boolean {
     return this.activeSection === sectionId;
+  }
+
+  private closeMenu(): void {
+    this.mobileMenuOpen = false;
+    document.body.style.overflow = '';
   }
 }

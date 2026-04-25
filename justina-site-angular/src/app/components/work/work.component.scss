@@ -17,8 +17,7 @@ $card-radius: 20px;
 .work-card {
   position: sticky;
   top: $sticky-top;
-  // margin-bottom gives scroll dwell time before the next card arrives at the sticky line.
-  margin-bottom: 200px;
+  margin-bottom: 120px;
   transform-origin: top center;
   will-change: transform, filter, opacity;
   background: #fff;
@@ -28,7 +27,7 @@ $card-radius: 20px;
   box-shadow: 0 2px 24px rgba(0, 0, 0, 0.04);
 
   &:last-child {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
 }
 
@@ -48,14 +47,14 @@ $card-radius: 20px;
 }
 
 .work-title {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 600;
   letter-spacing: -0.03em;
   color: #111;
 }
 
 .work-meta {
-  font-size: 13px;
+  font-size: 15px;
   color: #888;
   display: flex;
   align-items: center;
@@ -101,7 +100,7 @@ $card-radius: 20px;
   gap: 8px;
   padding: 10px 20px;
   border-radius: 100px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   background: #f0f0f0;
   color: #333;
@@ -210,11 +209,11 @@ $card-radius: 20px;
   }
 
   .work-card {
-    margin-bottom: 120px;
+    margin-bottom: 60px;
     border-radius: 12px;
 
     &:last-child {
-      margin-bottom: 40px;
+      margin-bottom: 24px;
     }
   }
 
@@ -225,7 +224,7 @@ $card-radius: 20px;
   }
 
   .work-title {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .work-card-preview {

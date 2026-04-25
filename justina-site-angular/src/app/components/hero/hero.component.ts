@@ -8,9 +8,9 @@ export interface Testimonial {
   quote: string;
 }
 
-export interface ServiceHighlight {
+export interface ServiceItem {
   label: string;
-  featured?: boolean;
+  description: string;
 }
 
 @Component({
@@ -42,52 +42,57 @@ export class HeroComponent implements OnInit, OnDestroy {
     },
   ];
 
-  serviceHighlights: ServiceHighlight[] = [
-    { label: 'Product strategy' },
-    { label: 'User research' },
-    { label: 'MVP scoping' },
-    { label: 'QA ownership', featured: true },
-    { label: 'Design systems' },
-    { label: 'Prototyping' },
+  serviceItems: ServiceItem[] = [
+    { label: 'Product strategy',    description: 'I work with founders to define what to build first, what to cut, and how to sequence decisions before a line of code is written.' },
+    { label: 'User research',       description: 'I run the research — interviews, usability tests, and synthesis — and connect it directly to design decisions.' },
+    { label: 'Fundraising support', description: 'Decks, prototypes, and design narratives that help early teams raise from investors who need to see the vision.' },
+    { label: 'Eng partnership',     description: 'I collaborate with engineers from sprint planning to QA. They don\'t get a spec thrown over a wall.' },
+    { label: 'Business analysis',   description: 'I map the flows, find where things break or slow down, and propose fixes with the data to back them up.' },
+    { label: '0→1 product design',  description: 'End-to-end design ownership from blank canvas to shipped product, including systems, components, and documentation.' },
+    { label: 'Generative AI',       description: 'Designing interfaces for AI-native products — where the output is unpredictable and the UX has to earn trust fast.' },
   ];
 
+  activeServiceIndex = 3;
   currentTestimonial = 0;
-  private autoPlayInterval?: ReturnType<typeof setInterval>;
+  private autoPlayTimer?: ReturnType<typeof setInterval>;
 
   ngOnInit(): void {
     this.startAutoPlay();
   }
 
   ngOnDestroy(): void {
-    this.stopAutoPlay();
+    clearInterval(this.autoPlayTimer);
   }
 
-  private startAutoPlay(): void {
-    this.autoPlayInterval = setInterval(() => {
-      this.next();
-    }, 5000);
+  selectService(index: number): void {
+    this.activeServiceIndex = index;
   }
 
-  private stopAutoPlay(): void {
-    if (this.autoPlayInterval) {
-      clearInterval(this.autoPlayInterval);
-    }
+  wheelItemStyle(index: number): Record<string, string> {
+    const delta = index - this.activeServiceIndex;
+    const absD = Math.abs(delta);
+    return {
+      transform: `translateY(${delta * 40}px) rotateX(${delta * 20}deg)`,
+      opacity: String(Math.max(0.12, 1 - absD * 0.22)),
+      filter: absD > 0 ? `blur(${Math.min(absD * 2, 8)}px)` : 'none',
+    };
   }
 
-  prev(): void {
-    this.stopAutoPlay();
-    this.currentTestimonial =
-      (this.currentTestimonial - 1 + this.testimonials.length) % this.testimonials.length;
-    this.startAutoPlay();
-  }
-
-  next(): void {
-    this.stopAutoPlay();
-    this.currentTestimonial = (this.currentTestimonial + 1) % this.testimonials.length;
-    this.startAutoPlay();
-  }
+  prev(): void { this.navigate(-1); }
+  next(): void { this.navigate(1); }
 
   get activeTestimonial(): Testimonial {
     return this.testimonials[this.currentTestimonial];
+  }
+
+  private navigate(delta: number): void {
+    const n = this.testimonials.length;
+    this.currentTestimonial = (this.currentTestimonial + delta + n) % n;
+    clearInterval(this.autoPlayTimer);
+    this.startAutoPlay();
+  }
+
+  private startAutoPlay(): void {
+    this.autoPlayTimer = setInterval(() => this.navigate(1), 5000);
   }
 }

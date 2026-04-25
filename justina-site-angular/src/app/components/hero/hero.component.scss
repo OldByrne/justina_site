@@ -27,7 +27,7 @@
 }
 
 .subheadline {
-  font-size: 16px;
+  font-size: 18px;
   color: #444;
   line-height: 1.7;
   max-width: 540px;
@@ -38,7 +38,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
+  font-size: 16px;
   color: #888;
 }
 
@@ -50,7 +50,7 @@
   margin-bottom: 48px;
 }
 
-// Services card
+// Services drum picker card
 .services-card {
   border-radius: 20px;
   overflow: hidden;
@@ -59,44 +59,83 @@
 }
 
 .services-bg {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   height: 100%;
   padding: 24px;
-  gap: 16px;
-}
-
-.services-labels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.service-tag {
-  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.45);
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 100px;
-  padding: 4px 10px;
+}
 
-  &.featured {
+.wheel-left {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.wheel-viewport {
+  perspective: 420px;
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(transparent 0%, black 28%, black 72%, transparent 100%);
+  -webkit-mask-image: linear-gradient(transparent 0%, black 28%, black 72%, transparent 100%);
+}
+
+.wheel-item {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  margin-top: -20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 0 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  color: #bbb;
+  text-align: left;
+  transition: transform 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.42s ease,
+              filter 0.42s ease;
+
+  &--active {
     color: #111;
-    background: rgba(255, 255, 255, 0.75);
-    font-weight: 500;
+    font-weight: 600;
   }
 }
 
-.services-spotlight {
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 13px;
-  color: #333;
-  line-height: 1.6;
-  margin-top: auto;
+.wheel-arrow {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  flex-shrink: 0;
+
+  .wheel-item--active & {
+    opacity: 1;
+  }
+}
+
+.wheel-description {
+  background: rgba(255, 255, 255, 0.58);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  min-height: 120px;
+
+  p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.65;
+    margin: 0;
+  }
 }
 
 // Testimonial card
@@ -135,13 +174,13 @@
   flex-direction: column;
 
   strong {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: #111;
   }
 
   span {
-    font-size: 12px;
+    font-size: 14px;
     color: #666;
   }
 }
@@ -169,7 +208,7 @@
 }
 
 .testimonial-quote {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.7;
   color: #333;
   margin: 0;
@@ -186,7 +225,7 @@
 }
 
 .backed-label {
-  font-size: 12px;
+  font-size: 14px;
   color: #999;
 }
 
@@ -197,7 +236,7 @@
 }
 
 .backer-badge {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #333;
   letter-spacing: -0.01em;

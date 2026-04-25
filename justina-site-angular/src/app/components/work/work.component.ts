@@ -3,7 +3,6 @@ import {
   Component,
   HostListener,
   OnDestroy,
-  OnInit,
   QueryList,
   ElementRef,
   ViewChildren,
@@ -19,12 +18,11 @@ export interface WorkItem {
   ctaLink: string;
   hasLiveLink: boolean;
   gradient: string;
-  mockBgColor: string;
 }
 
-const STICKY_TOP = 80;
-// How far (in px) past the sticky line the scroll must travel for blur to reach 100%.
-const BLUR_TRAVEL_PX = 260;
+const STICKY_TOP = 80; // must match $sticky-top in work.component.scss
+
+type AnimEntry = { card: HTMLElement; startY: number; travelPx: number };
 
 @Component({
   selector: 'app-work',
@@ -33,7 +31,7 @@ const BLUR_TRAVEL_PX = 260;
   templateUrl: './work.component.html',
   styleUrl: './work.component.scss',
 })
-export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WorkComponent implements AfterViewInit, OnDestroy {
   @ViewChildren('workCard') workCardRefs!: QueryList<ElementRef<HTMLElement>>;
 
   workItems: WorkItem[] = [
@@ -46,7 +44,6 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
       ctaLink: '#',
       hasLiveLink: true,
       gradient: 'linear-gradient(145deg, #e8f0fe, #d2e3fc)',
-      mockBgColor: '#e8f0fe',
     },
     {
       id: 2,
@@ -57,7 +54,6 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
       ctaLink: '#',
       hasLiveLink: false,
       gradient: 'linear-gradient(145deg, #f0fdf4, #dcfce7)',
-      mockBgColor: '#f0fdf4',
     },
     {
       id: 3,
@@ -68,7 +64,6 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
       ctaLink: '#',
       hasLiveLink: false,
       gradient: 'linear-gradient(145deg, #fdf4ff, #fae8ff)',
-      mockBgColor: '#fdf4ff',
     },
     {
       id: 4,
@@ -79,22 +74,15 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
       ctaLink: '#',
       hasLiveLink: false,
       gradient: 'linear-gradient(145deg, #fff7ed, #ffedd5)',
-      mockBgColor: '#fff7ed',
     },
   ];
 
-  // Maps card index → the scrollY at which its next card first crossed the sticky line.
-  // Cleared when the next card scrolls back above the sticky line.
-  private readonly triggerScrollY = new Map<number, number>();
-
-  private scrollListener = () => this.tick();
-
-  ngOnInit(): void {
-    window.addEventListener('scroll', this.scrollListener, { passive: true });
-  }
+  private animData: AnimEntry[] = [];
+  private scrollListener!: () => void;
 
   ngAfterViewInit(): void {
-    this.tick();
+    // Double rAF: first frame finishes Angular's render, second gives the browser time to lay out
+    requestAnimationFrame(() => requestAnimationFrame(() => this.setup()));
   }
 
   ngOnDestroy(): void {
@@ -103,53 +91,47 @@ export class WorkComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @HostListener('window:resize')
   onResize(): void {
-    this.triggerScrollY.clear();
+    this.setup();
+  }
+
+  // Traverse offsetParent chain for absolute document top — immune to scroll position and sticky state.
+  private docTop(el: HTMLElement): number {
+    let top = 0;
+    let cur: HTMLElement | null = el;
+    while (cur) { top += cur.offsetTop; cur = cur.offsetParent as HTMLElement | null; }
+    return top;
+  }
+
+  private setup(): void {
+    const cards = this.workCardRefs.toArray();
+    if (!cards.length) return;
+
+    // startY: scroll position where card i+1 first overlaps card i's bottom.
+    // travelPx: scroll distance until card i+1 fully covers card i (= card i's height).
+    this.animData = cards.slice(0, -1).map((ref, i) => {
+      const card = ref.nativeElement;
+      const nextDocTop = this.docTop(cards[i + 1].nativeElement);
+      const cardHeight = card.offsetHeight;
+      return { card, startY: nextDocTop - STICKY_TOP - cardHeight, travelPx: cardHeight };
+    });
+
+    if (this.scrollListener) window.removeEventListener('scroll', this.scrollListener);
+    this.scrollListener = () => this.tick();
+    window.addEventListener('scroll', this.scrollListener, { passive: true });
     this.tick();
   }
 
   private tick(): void {
-    const cards = this.workCardRefs?.toArray();
-    if (!cards?.length) return;
-
-    const scrollY = window.scrollY;
-
-    cards.forEach((ref, i) => {
-      const card = ref.nativeElement;
-
-      // Last card is never buried — always pristine.
-      if (i >= cards.length - 1) {
-        this.clearCard(card);
-        return;
+    const sy = window.scrollY;
+    this.animData.forEach(({ card, startY, travelPx }) => {
+      const p = Math.max(0, Math.min(1, (sy - startY) / travelPx));
+      if (p === 0) {
+        card.style.transform = card.style.filter = card.style.opacity = '';
+      } else {
+        card.style.transform = `scale(${1 - 0.05 * p})`;
+        card.style.filter = `blur(${8 * p}px)`;
+        card.style.opacity = String(1 - p);
       }
-
-      const nextTop = cards[i + 1].nativeElement.getBoundingClientRect().top;
-
-      if (nextTop > STICKY_TOP) {
-        // Next card hasn't reached the sticky line yet.
-        // If we had a trigger recorded (user scrolled back up), clear it.
-        this.triggerScrollY.delete(i);
-        this.clearCard(card);
-        return;
-      }
-
-      // Next card has reached or passed the sticky line.
-      // Record the scrollY the very first time we observe this.
-      if (!this.triggerScrollY.has(i)) {
-        this.triggerScrollY.set(i, scrollY);
-      }
-
-      const trigger = this.triggerScrollY.get(i)!;
-      const progress = Math.max(0, Math.min(1, (scrollY - trigger) / BLUR_TRAVEL_PX));
-
-      card.style.transform = `scale(${1 - 0.05 * progress})`;
-      card.style.filter = `blur(${8 * progress}px)`;
-      card.style.opacity = String(1 - 0.25 * progress);
     });
-  }
-
-  private clearCard(card: HTMLElement): void {
-    card.style.transform = '';
-    card.style.filter = '';
-    card.style.opacity = '';
   }
 }

@@ -55,14 +55,25 @@ describe('HeroComponent', () => {
     expect(headline?.textContent).toContain('Justina');
   });
 
-  it('should render service highlights', () => {
+  it('should render a wheel item for each service', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const tags = compiled.querySelectorAll('.service-tag');
-    expect(tags.length).toBe(component.serviceHighlights.length);
+    const items = compiled.querySelectorAll('.wheel-item');
+    expect(items.length).toBe(component.serviceItems.length);
   });
 
-  it('should have at least one featured service', () => {
-    const featured = component.serviceHighlights.filter(s => s.featured);
-    expect(featured.length).toBeGreaterThan(0);
+  it('should mark the active wheel item', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const active = compiled.querySelectorAll('.wheel-item--active');
+    expect(active.length).toBe(1);
+  });
+
+  it('should update activeServiceIndex on selectService()', () => {
+    component.selectService(0);
+    expect(component.activeServiceIndex).toBe(0);
+  });
+
+  it('should return a transform style from wheelItemStyle()', () => {
+    const style = component.wheelItemStyle(0);
+    expect(style['transform']).toContain('rotateX');
   });
 });

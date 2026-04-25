@@ -20,23 +20,26 @@
 
     <!-- Services + Testimonial side-by-side -->
     <div class="hero-bottom">
-      <!-- Services preview card -->
+      <!-- Services drum picker card -->
       <div class="services-card">
         <div class="services-bg">
-          <div class="services-labels">
-            @for (item of serviceHighlights; track item.label) {
-              <span class="service-tag" [class.featured]="item.featured">
-                @if (item.featured) {
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                }
-                {{ item.label }}
-              </span>
-            }
+          <div class="wheel-left">
+            <div class="wheel-viewport">
+              @for (item of serviceItems; track item.label; let i = $index) {
+                <button
+                  class="wheel-item"
+                  [class.wheel-item--active]="i === activeServiceIndex"
+                  [style]="wheelItemStyle(i)"
+                  (click)="selectService(i)"
+                >
+                  <span class="wheel-arrow">→</span>
+                  {{ item.label }}
+                </button>
+              }
+            </div>
           </div>
-          <div class="services-spotlight">
-            <p>I break what we build, then figure out why. Checking edge cases, logic gaps, and following through bugs.</p>
+          <div class="wheel-description">
+            <p>{{ serviceItems[activeServiceIndex].description }}</p>
           </div>
         </div>
       </div>

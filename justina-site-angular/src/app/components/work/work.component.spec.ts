@@ -75,20 +75,12 @@ describe('WorkComponent', () => {
     expect(wrappers.length).toBe(0);
   });
 
-  it('should not apply blur/scale to cards at page load (no scroll)', () => {
+  it('should not apply blur/scale to cards at page load', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const cards = Array.from(compiled.querySelectorAll<HTMLElement>('.work-card'));
     cards.forEach(card => {
       expect(card.style.filter).toBe('');
       expect(card.style.transform).toBe('');
     });
-  });
-
-  it('should always clear styles on the last card', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const cards = Array.from(compiled.querySelectorAll<HTMLElement>('.work-card'));
-    const lastCard = cards[cards.length - 1];
-    expect(lastCard.style.filter).toBe('');
-    expect(lastCard.style.transform).toBe('');
   });
 });

@@ -2,7 +2,7 @@
   <!-- Desktop sidebar -->
   <div class="nav-desktop">
     <div class="nav-logo">
-      <span class="logo-text">Justina<br>Portfolio</span>
+      <img src="logo.png" alt="Justina Mazeikaite" class="logo-img">
     </div>
 
     <ul class="nav-links">
@@ -20,14 +20,25 @@
     </ul>
 
     <div class="nav-footer">
-      <a href="https://linkedin.com" target="_blank" rel="noopener" class="nav-footer-link">LinkedIn</a>
-      <a href="mailto:hello@justina.design" class="nav-footer-link">Email</a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener" class="nav-footer-link" aria-label="LinkedIn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+      <a href="mailto:hello@justina.design" class="nav-footer-link" aria-label="Email">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M2 7l10 7 10-7"/>
+        </svg>
+      </a>
     </div>
   </div>
 
   <!-- Mobile header -->
   <div class="nav-mobile-header">
-    <span class="logo-text-mobile">Justina</span>
+    <img src="logo.png" alt="Justina Mazeikaite" class="logo-img-mobile">
     <button class="hamburger" (click)="toggleMobileMenu()" [attr.aria-expanded]="mobileMenuOpen" aria-label="Toggle menu">
       @if (!mobileMenuOpen) {
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -58,8 +69,19 @@
         }
       </ul>
       <div class="nav-mobile-footer">
-        <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="mailto:hello@justina.design">Email</a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a href="mailto:hello@justina.design" aria-label="Email">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 7l10 7 10-7"/>
+          </svg>
+        </a>
       </div>
     </div>
   }
